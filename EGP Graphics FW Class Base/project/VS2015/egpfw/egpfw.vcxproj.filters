@@ -1,0 +1,153 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\egpfw">
+      <UniqueIdentifier>{1db8cffc-b843-42f0-9f79-6540de533a3d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\c">
+      <UniqueIdentifier>{d694b186-d693-41f9-ac9e-c83e0c001245}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\cpp">
+      <UniqueIdentifier>{008ef152-8bb8-41d3-8c26-b1c4a33eeaee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\week1">
+      <UniqueIdentifier>{0ef48ae8-bd01-4218-997f-a8ded634f94d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\week2">
+      <UniqueIdentifier>{4fa1bd5d-7ce9-470a-9879-00d335d4b3bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\week3">
+      <UniqueIdentifier>{9a88322c-499a-4eb3-8230-09f7a7d870c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\week7">
+      <UniqueIdentifier>{e76b735e-3058-4ad6-976c-0da040c1dd9f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\project3">
+      <UniqueIdentifier>{9dfddf59-b360-4bcc-a20a-e5975e183e2e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\include\egpfw\egpfw.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\egpfw\egpfw\egpfwPrimitiveDataSimple.h">
+      <Filter>Header Files\egpfw</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\egpfw\egpfw\egpfwVertexBuffer.h">
+      <Filter>Header Files\egpfw</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\egpfw\egpfw\egpfwShaderProgram.h">
+      <Filter>Header Files\egpfw</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\egpfw\egpfw\egpfwOBJLoader.h">
+      <Filter>Header Files\egpfw</Filter>
+    </ClInclude>
+    <ClInclude Include="transformMatrix.h">
+      <Filter>Source Files\week1</Filter>
+    </ClInclude>
+    <ClInclude Include="utils.h">
+      <Filter>Source Files\week1</Filter>
+    </ClInclude>
+    <ClInclude Include="vector3.h">
+      <Filter>Source Files\week1</Filter>
+    </ClInclude>
+    <ClInclude Include="Quaternion.h">
+      <Filter>Source Files\week2</Filter>
+    </ClInclude>
+    <ClInclude Include="QuaternionTest.h">
+      <Filter>Source Files\week2</Filter>
+    </ClInclude>
+    <ClInclude Include="TStack.h">
+      <Filter>Source Files\week3</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\egpfw\egpfw\egpfwFrameBuffer.h">
+      <Filter>Header Files\egpfw</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderPass.h">
+      <Filter>Source Files\week7</Filter>
+    </ClInclude>
+    <ClInclude Include="render_enums.h">
+      <Filter>Source Files\week7</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderPath.h">
+      <Filter>Source Files\week7</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderPassData.h">
+      <Filter>Source Files\week7</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderNetgraph.h">
+      <Filter>Source Files\week7</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\egpfw\egpfw\egpfwInterpolation.h">
+      <Filter>Header Files\egpfw</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\egpfw\egpfw\egpfwKeyframeController.h">
+      <Filter>Header Files\egpfw</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyframeWindow.h">
+      <Filter>Source Files\project3</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\source\egpfw\egpfwPrimitiveDataSimple.c">
+      <Filter>Source Files\c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\egpfw\egpfwShaderProgram.c">
+      <Filter>Source Files\c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\egpfw\egpfwVertexBuffer.c">
+      <Filter>Source Files\c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\egpfw\egpfwOBJLoader.c">
+      <Filter>Source Files\c</Filter>
+    </ClCompile>
+    <ClCompile Include="Quaternion.cpp">
+      <Filter>Source Files\week2</Filter>
+    </ClCompile>
+    <ClCompile Include="QuaternionTest.cpp">
+      <Filter>Source Files\week2</Filter>
+    </ClCompile>
+    <ClCompile Include="stackTest.cpp">
+      <Filter>Source Files\week3</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\egpfw\egpfwFrameBuffer.c">
+      <Filter>Source Files\c</Filter>
+    </ClCompile>
+    <ClCompile Include="transformMatrix.cpp">
+      <Filter>Source Files\week1</Filter>
+    </ClCompile>
+    <ClCompile Include="vector3.cpp">
+      <Filter>Source Files\week1</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\egpfw\egpfwInterpolation.c">
+      <Filter>Source Files\c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\egpfw\egpfwKeyframeController.c">
+      <Filter>Source Files\c</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderPass.cpp">
+      <Filter>Source Files\week7</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderPath.cpp">
+      <Filter>Source Files\week7</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderNetgraph.cpp">
+      <Filter>Source Files\week7</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyframeWindow.cpp">
+      <Filter>Source Files\project3</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

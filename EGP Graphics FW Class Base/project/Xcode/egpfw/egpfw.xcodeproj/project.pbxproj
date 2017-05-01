@@ -1,0 +1,326 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		BB062A981E3B8A0D00AA4663 /* egpfw.h in Headers */ = {isa = PBXBuildFile; fileRef = BB062A971E3B8A0D00AA4663 /* egpfw.h */; };
+		BB062AA61E3B8A1B00AA4663 /* egpfwPrimitiveDataSimple.h in Headers */ = {isa = PBXBuildFile; fileRef = BB062A9D1E3B8A1B00AA4663 /* egpfwPrimitiveDataSimple.h */; };
+		BB062AA71E3B8A1B00AA4663 /* egpfwShaderProgram.h in Headers */ = {isa = PBXBuildFile; fileRef = BB062A9E1E3B8A1B00AA4663 /* egpfwShaderProgram.h */; };
+		BB062AAA1E3B8A1B00AA4663 /* egpfwVertexBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = BB062AA11E3B8A1B00AA4663 /* egpfwVertexBuffer.h */; };
+		BB062AC41E3B8A4900AA4663 /* egpfwPrimitiveDataSimple.c in Sources */ = {isa = PBXBuildFile; fileRef = BB062ABB1E3B8A4900AA4663 /* egpfwPrimitiveDataSimple.c */; };
+		BB062AC51E3B8A4900AA4663 /* egpfwShaderProgram.c in Sources */ = {isa = PBXBuildFile; fileRef = BB062ABC1E3B8A4900AA4663 /* egpfwShaderProgram.c */; };
+		BB062AC81E3B8A4900AA4663 /* egpfwVertexBuffer.c in Sources */ = {isa = PBXBuildFile; fileRef = BB062ABF1E3B8A4900AA4663 /* egpfwVertexBuffer.c */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		BB062A971E3B8A0D00AA4663 /* egpfw.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = egpfw.h; path = ../../../include/egpfw/egpfw.h; sourceTree = "<group>"; };
+		BB062A9D1E3B8A1B00AA4663 /* egpfwPrimitiveDataSimple.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = egpfwPrimitiveDataSimple.h; path = ../../../include/egpfw/egpfw/egpfwPrimitiveDataSimple.h; sourceTree = "<group>"; };
+		BB062A9E1E3B8A1B00AA4663 /* egpfwShaderProgram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = egpfwShaderProgram.h; path = ../../../include/egpfw/egpfw/egpfwShaderProgram.h; sourceTree = "<group>"; };
+		BB062AA11E3B8A1B00AA4663 /* egpfwVertexBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = egpfwVertexBuffer.h; path = ../../../include/egpfw/egpfw/egpfwVertexBuffer.h; sourceTree = "<group>"; };
+		BB062ABB1E3B8A4900AA4663 /* egpfwPrimitiveDataSimple.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = egpfwPrimitiveDataSimple.c; path = ../../../source/egpfw/egpfwPrimitiveDataSimple.c; sourceTree = "<group>"; };
+		BB062ABC1E3B8A4900AA4663 /* egpfwShaderProgram.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = egpfwShaderProgram.c; path = ../../../source/egpfw/egpfwShaderProgram.c; sourceTree = "<group>"; };
+		BB062ABF1E3B8A4900AA4663 /* egpfwVertexBuffer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = egpfwVertexBuffer.c; path = ../../../source/egpfw/egpfwVertexBuffer.c; sourceTree = "<group>"; };
+		BB8A68981E3932A500B84A1E /* libegpfw.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libegpfw.a; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		BB8A68951E3932A500B84A1E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		BB062A8A1E3B897300AA4663 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				BB062A8D1E3B899300AA4663 /* c */,
+				BB062A8C1E3B898E00AA4663 /* cpp */,
+			);
+			name = src;
+			sourceTree = "<group>";
+		};
+		BB062A8B1E3B897900AA4663 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				BB062A971E3B8A0D00AA4663 /* egpfw.h */,
+				BB062A8E1E3B899D00AA4663 /* egpfw */,
+			);
+			name = include;
+			sourceTree = "<group>";
+		};
+		BB062A8C1E3B898E00AA4663 /* cpp */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = cpp;
+			sourceTree = "<group>";
+		};
+		BB062A8D1E3B899300AA4663 /* c */ = {
+			isa = PBXGroup;
+			children = (
+				BB062ABB1E3B8A4900AA4663 /* egpfwPrimitiveDataSimple.c */,
+				BB062ABC1E3B8A4900AA4663 /* egpfwShaderProgram.c */,
+				BB062ABF1E3B8A4900AA4663 /* egpfwVertexBuffer.c */,
+			);
+			name = c;
+			sourceTree = "<group>";
+		};
+		BB062A8E1E3B899D00AA4663 /* egpfw */ = {
+			isa = PBXGroup;
+			children = (
+				BB062A9D1E3B8A1B00AA4663 /* egpfwPrimitiveDataSimple.h */,
+				BB062A9E1E3B8A1B00AA4663 /* egpfwShaderProgram.h */,
+				BB062AA11E3B8A1B00AA4663 /* egpfwVertexBuffer.h */,
+			);
+			name = egpfw;
+			sourceTree = "<group>";
+		};
+		BB8A688F1E3932A500B84A1E = {
+			isa = PBXGroup;
+			children = (
+				BB062A8B1E3B897900AA4663 /* include */,
+				BB062A8A1E3B897300AA4663 /* src */,
+				BB8A68991E3932A500B84A1E /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		BB8A68991E3932A500B84A1E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				BB8A68981E3932A500B84A1E /* libegpfw.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		BB8A68961E3932A500B84A1E /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BB062AAA1E3B8A1B00AA4663 /* egpfwVertexBuffer.h in Headers */,
+				BB062AA61E3B8A1B00AA4663 /* egpfwPrimitiveDataSimple.h in Headers */,
+				BB062A981E3B8A0D00AA4663 /* egpfw.h in Headers */,
+				BB062AA71E3B8A1B00AA4663 /* egpfwShaderProgram.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		BB8A68971E3932A500B84A1E /* egpfw */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BB8A689C1E3932A500B84A1E /* Build configuration list for PBXNativeTarget "egpfw" */;
+			buildPhases = (
+				BB8A68941E3932A500B84A1E /* Sources */,
+				BB8A68951E3932A500B84A1E /* Frameworks */,
+				BB8A68961E3932A500B84A1E /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = egpfw;
+			productName = egpfw;
+			productReference = BB8A68981E3932A500B84A1E /* libegpfw.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		BB8A68901E3932A500B84A1E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0820;
+				ORGANIZATIONNAME = "Dan Buckstein";
+				TargetAttributes = {
+					BB8A68971E3932A500B84A1E = {
+						CreatedOnToolsVersion = 8.2.1;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = BB8A68931E3932A500B84A1E /* Build configuration list for PBXProject "egpfw" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = BB8A688F1E3932A500B84A1E;
+			productRefGroup = BB8A68991E3932A500B84A1E /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				BB8A68971E3932A500B84A1E /* egpfw */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		BB8A68941E3932A500B84A1E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BB062AC41E3B8A4900AA4663 /* egpfwPrimitiveDataSimple.c in Sources */,
+				BB062AC81E3B8A4900AA4663 /* egpfwVertexBuffer.c in Sources */,
+				BB062AC51E3B8A4900AA4663 /* egpfwShaderProgram.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		BB8A689A1E3932A500B84A1E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = NO;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/../../../include",
+					"$(PROJECT_DIR)/../../../thirdparty/include",
+					"$(PROJECT_DIR)/../../../thirdparty/include/xcode",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OBJROOT = "$(PROJECT_DIR)/build/x86_64/xcode/$(CONFIGURATION)";
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SYMROOT = "$(PROJECT_DIR)/../../../lib/x86_64/xcode/$(CONFIGURATION)";
+			};
+			name = Debug;
+		};
+		BB8A689B1E3932A500B84A1E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = NO;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/../../../include",
+					"$(PROJECT_DIR)/../../../thirdparty/include",
+					"$(PROJECT_DIR)/../../../thirdparty/include/xcode",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OBJROOT = "$(PROJECT_DIR)/build/x86_64/xcode/$(CONFIGURATION)";
+				SDKROOT = macosx;
+				SYMROOT = "$(PROJECT_DIR)/../../../lib/x86_64/xcode/$(CONFIGURATION)";
+			};
+			name = Release;
+		};
+		BB8A689D1E3932A500B84A1E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		BB8A689E1E3932A500B84A1E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		BB8A68931E3932A500B84A1E /* Build configuration list for PBXProject "egpfw" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BB8A689A1E3932A500B84A1E /* Debug */,
+				BB8A689B1E3932A500B84A1E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BB8A689C1E3932A500B84A1E /* Build configuration list for PBXNativeTarget "egpfw" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BB8A689D1E3932A500B84A1E /* Debug */,
+				BB8A689E1E3932A500B84A1E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = BB8A68901E3932A500B84A1E /* Project object */;
+}

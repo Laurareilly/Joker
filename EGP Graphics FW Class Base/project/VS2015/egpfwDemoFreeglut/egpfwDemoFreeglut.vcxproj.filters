@@ -1,0 +1,162 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\egpfwDemo">
+      <UniqueIdentifier>{7dec6d87-16bc-4d69-80ec-968456751b2f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\glsl">
+      <UniqueIdentifier>{8fbe023b-82b2-47c8-8c22-1d3a27315062}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\glsl\4x">
+      <UniqueIdentifier>{0ce6f8d2-84d4-4eb4-9025-864a7fdb3db1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\glsl\4x\vs">
+      <UniqueIdentifier>{b27f348d-a6cb-4985-9d54-5c6f1f2763bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\glsl\4x\fs">
+      <UniqueIdentifier>{51f71258-b8ae-4314-a540-85deecdd0494}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\glsl\4x\fs_bloom">
+      <UniqueIdentifier>{9dcc4fa5-a54a-4da9-a995-83498e94fdff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\glsl\4x\gs">
+      <UniqueIdentifier>{06974315-16fb-4f49-80b8-244cbc86bd8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\glsl\4x\fs_deferred">
+      <UniqueIdentifier>{0de73b3e-afb4-4c1d-a5db-c76d5474b7d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\glsl\4x\vs_deferred">
+      <UniqueIdentifier>{afb56fe8-f464-4e4c-a9db-5c822a65a431}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\glsl\4x\vs_shadow">
+      <UniqueIdentifier>{18e0fe4a-2790-4914-b634-e3ad498cc77f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\glsl\4x\fs_shadow">
+      <UniqueIdentifier>{aee0df81-846e-455e-91a8-23848438fa71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\glsl\4x\gs">
+      <UniqueIdentifier>{49a6c7fd-6613-44cd-8fff-6abc4cd1c01d}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\source\egpfwDemo\egpfwDemo.cpp">
+      <Filter>Source Files\egpfwDemo</Filter>
+    </ClCompile>
+    <ClCompile Include="egpfwDemoFreeglut\egpDemoFreeglutMain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\source\egpfwDemo\egpfwDemo.h">
+      <Filter>Source Files\egpfwDemo</Filter>
+    </ClInclude>
+    <ClInclude Include="egpfwDemoFreeglut\resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="egpfwDemoFreeglut\egpfwDemoFreeglut.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="egpfwDemoFreeglut\icon1.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\resource\glsl\4x\fs\drawColor_fs4x.glsl">
+      <Filter>Resource Files\glsl\4x\fs</Filter>
+    </None>
+    <None Include="..\..\..\resource\glsl\4x\fs\drawTexture_fs4x.glsl">
+      <Filter>Resource Files\glsl\4x\fs</Filter>
+    </None>
+    <None Include="..\..\..\resource\glsl\4x\fs\phong_fs4x.glsl">
+      <Filter>Resource Files\glsl\4x\fs</Filter>
+    </None>
+    <None Include="..\..\..\resource\glsl\4x\vs\passColor_vs4x.glsl">
+      <Filter>Resource Files\glsl\4x\vs</Filter>
+    </None>
+    <None Include="..\..\..\resource\glsl\4x\vs\passTexcoord_vs4x.glsl">
+      <Filter>Resource Files\glsl\4x\vs</Filter>
+    </None>
+    <None Include="..\..\..\resource\glsl\4x\vs\phong_vs4x.glsl">
+      <Filter>Resource Files\glsl\4x\vs</Filter>
+    </None>
+    <None Include="..\..\..\resource\glsl\4x\vs\passTexcoord_passthruPosition_vs4x.glsl">
+      <Filter>Resource Files\glsl\4x\vs</Filter>
+    </None>
+    <None Include="..\..\..\resource\glsl\4x\fs_bloom\blur_gaussian_fs4x.glsl">
+      <Filter>Resource Files\glsl\4x\fs_bloom</Filter>
+    </None>
+    <None Include="..\..\..\resource\glsl\4x\fs_bloom\brightpass_fs4x.glsl">
+      <Filter>Resource Files\glsl\4x\fs_bloom</Filter>
+    </None>
+    <None Include="..\..\..\resource\glsl\4x\fs_bloom\blend_screen_fs4x.glsl">
+      <Filter>Resource Files\glsl\4x\fs_bloom</Filter>
+    </None>
+    <None Include="..\..\..\resource\glsl\4x\vs\celshade_vs4x.glsl">
+      <Filter>Resource Files\glsl\4x\vs</Filter>
+    </None>
+    <None Include="..\..\..\resource\glsl\4x\fs\celshade_fs4x.glsl">
+      <Filter>Resource Files\glsl\4x\fs</Filter>
+    </None>
+    <None Include="..\..\..\resource\glsl\4x\vs\silhouette_vs4x.glsl">
+      <Filter>Resource Files\glsl\4x\vs</Filter>
+    </None>
+    <None Include="..\..\..\resource\glsl\4x\fs\silhouette_fs4x.glsl">
+      <Filter>Resource Files\glsl\4x\fs</Filter>
+    </None>
+    <None Include="..\..\..\resource\glsl\4x\fs_deferred\deferredComposite_fs4x.glsl">
+      <Filter>Resource Files\glsl\4x\fs_deferred</Filter>
+    </None>
+    <None Include="..\..\..\resource\glsl\4x\fs_deferred\deferredShading_fs4x.glsl">
+      <Filter>Resource Files\glsl\4x\fs_deferred</Filter>
+    </None>
+    <None Include="..\..\..\resource\glsl\4x\fs_deferred\drawGBuffers_fs4x.glsl">
+      <Filter>Resource Files\glsl\4x\fs_deferred</Filter>
+    </None>
+    <None Include="..\..\..\resource\glsl\4x\fs_deferred\phong_deferred_pointLight_fs4x.glsl">
+      <Filter>Resource Files\glsl\4x\fs_deferred</Filter>
+    </None>
+    <None Include="..\..\..\resource\glsl\4x\vs_deferred\passAttribs_world_vs4x.glsl">
+      <Filter>Resource Files\glsl\4x\vs_deferred</Filter>
+    </None>
+    <None Include="..\..\..\resource\glsl\4x\vs_deferred\passPosition_clip_vs4x.glsl">
+      <Filter>Resource Files\glsl\4x\vs_deferred</Filter>
+    </None>
+    <None Include="..\..\..\resource\glsl\4x\vs\transform_vs4x.glsl">
+      <Filter>Resource Files\glsl\4x\vs</Filter>
+    </None>
+    <None Include="..\..\..\resource\glsl\4x\vs_shadow\phong_passAltClip_vs4x.glsl">
+      <Filter>Resource Files\glsl\4x\vs_shadow</Filter>
+    </None>
+    <None Include="..\..\..\resource\glsl\4x\fs_shadow\phong_shadowmap_fs4x.glsl">
+      <Filter>Resource Files\glsl\4x\fs_shadow</Filter>
+    </None>
+    <None Include="..\..\..\resource\glsl\4x\fs_shadow\phong_projtex_fs4x.glsl">
+      <Filter>Resource Files\glsl\4x\fs_shadow</Filter>
+    </None>
+    <None Include="..\..\..\resource\glsl\4x\fs_deferred\depthofFieldComposite_fs4x.glsl">
+      <Filter>Resource Files\glsl\4x\fs</Filter>
+    </None>
+    <None Include="..\..\..\resource\glsl\4x\fs\drawSolid_fs4x.glsl">
+      <Filter>Resource Files\glsl\4x\fs</Filter>
+    </None>
+    <None Include="..\..\..\resource\glsl\4x\gs\drawCurve_gs4x.glsl">
+      <Filter>Resource Files\glsl\4x\gs</Filter>
+    </None>
+  </ItemGroup>
+</Project>
