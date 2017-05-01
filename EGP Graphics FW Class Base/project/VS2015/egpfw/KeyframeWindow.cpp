@@ -127,39 +127,40 @@ void KeyframeWindow::updateWindowSize(float viewport_tw, float viewport_th, floa
 	resetKeyframes();
 }
 
-float KeyframeWindow::getValAtCurrentTime(KeyframeChannel c)
+float KeyframeWindow::getValAtCurrentTime(KeyframeChannel c, SpeedControlWindow::CurveType curveType, float t)
 {
-	using namespace cbmath;
-
-	auto& list = mWaypointChannels[c];
-
-	if (list.size() == 0)
-		return 0.0f;
-	else if (list.size() == 1)
-		return list[0].y;
-
-	//If we have at least 2 positions, loop through the list and find 
-	//the ones that are to the left and to the right of current time.
-	float leftXTime, rightXTime;
-	vec4 posToLeft, posToRight;
-
-	for (size_t i = 0; i < list.size() - 1; i++)
-	{
-		leftXTime = (list[i].x / mWindowSize.x) * 2.0f;
-		rightXTime = (list[i + 1].x / mWindowSize.x) * 2.0f;
-
-		if (leftXTime <= mCurrentTime && rightXTime >= mCurrentTime)
+		using namespace cbmath;
+	
+		auto& list = mWaypointChannels[c];
+	
+		if (list.size() == 0)
+			return 0.0f;
+		else if (list.size() == 1)
+			return list[0].y;
+	
+		//If we have at least 2 positions, loop through the list and find 
+		//the ones that are to the left and to the right of current time.
+		float leftXTime, rightXTime;
+		vec4 posToLeft, posToRight;
+	
+		for (size_t i = 0; i < list.size() - 1; i++)
 		{
-			posToLeft = list[i];
-			posToRight = list[i + 1];
-			break;
+			leftXTime = (list[i].x / mWindowSize.x) * 2.0f;
+			rightXTime = (list[i + 1].x / mWindowSize.x) * 2.0f;
+	
+			if (leftXTime <= mCurrentTime && rightXTime >= mCurrentTime)
+			{
+				posToLeft = list[i];
+				posToRight = list[i + 1];
+				break;
+			}
 		}
-	}
-
-	//Laura figured out this math because she is egod of time
-	float t = (mCurrentTime - leftXTime) / (rightXTime - leftXTime);
-	return egpfwLerp(posToLeft.y, posToRight.y, t) * 2.0f / mWindowSize.y - 1.0f;
+	
+	
+		//float t = (mCurrentTime - leftXTime) / (rightXTime - leftXTime);
+		return egpfwLerp(posToLeft.y, posToRight.y, t) * 2.0f / mWindowSize.y - 1.0f;
 }
+
 
 void KeyframeWindow::renderToFBO(int* curveUniformSet, int* solidColorUniformSet)
 {	

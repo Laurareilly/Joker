@@ -41,6 +41,7 @@ out vec4 passColor;
 // constants
 const vec4 BLUE = vec4(0.0, 0.5, 1.0, 1.0);
 const vec4 GREEN = vec4(0.0, 1.0, 0.5, 1.0);
+const vec4 YELLOW = vec4(1.0, 0.9, 0.0, 1.0);
 
 
 // ****

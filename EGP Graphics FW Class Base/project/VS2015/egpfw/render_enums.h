@@ -108,6 +108,7 @@ enum FBOIndex
 	depthOfFieldOutputFBO,
 
 	curvesFBO,
+	speedControlFBO,
 
 	// shadow map
 	shadowFBO,

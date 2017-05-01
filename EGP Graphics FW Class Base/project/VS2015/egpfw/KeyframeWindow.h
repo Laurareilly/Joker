@@ -5,6 +5,7 @@
 #include <array>
 #include <cbmath/cbtkVector.h>
 #include <cbmath/cbtkMatrix.h>
+#include "SpeedControlWindow.h"
 
 struct egpMouse;
 struct egpKeyboard;
@@ -51,7 +52,7 @@ class KeyframeWindow
 		void update(float deltaT);
 		void updateWindowSize(float viewport_tw, float viewport_th, float tmpNF, float win_w, float win_h);
 
-		float getValAtCurrentTime(KeyframeChannel c);
+		float getValAtCurrentTime(KeyframeChannel c, SpeedControlWindow::CurveType curveType, float t);
 	
 		cbmath::mat4& getOnScreenMatrix() { return mOnScreenMatrix; }
 

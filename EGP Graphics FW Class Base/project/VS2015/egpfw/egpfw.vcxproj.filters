@@ -37,6 +37,9 @@
     <Filter Include="Source Files\project3">
       <UniqueIdentifier>{9dfddf59-b360-4bcc-a20a-e5975e183e2e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Joker">
+      <UniqueIdentifier>{516084ae-c974-4427-91c7-2e933b5aa584}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\egpfw\egpfw.h">
@@ -99,6 +102,9 @@
     <ClInclude Include="KeyframeWindow.h">
       <Filter>Source Files\project3</Filter>
     </ClInclude>
+    <ClInclude Include="SpeedControlWindow.h">
+      <Filter>Source Files\Joker</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\source\egpfw\egpfwPrimitiveDataSimple.c">
@@ -148,6 +154,9 @@
     </ClCompile>
     <ClCompile Include="KeyframeWindow.cpp">
       <Filter>Source Files\project3</Filter>
+    </ClCompile>
+    <ClCompile Include="SpeedControlWindow.cpp">
+      <Filter>Source Files\Joker</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

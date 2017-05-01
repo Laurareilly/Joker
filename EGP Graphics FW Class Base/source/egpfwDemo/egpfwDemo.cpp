@@ -42,6 +42,7 @@
 #include "../../project/VS2015/egpfw/RenderPath.h"
 #include "../../project/VS2015/egpfw/RenderNetgraph.h"
 #include "../../project/VS2015/egpfw/KeyframeWindow.h"
+#include "../../project/VS2015/egpfw/SpeedControlWindow.h"
 #include <GL/freeglut.h>
 
 
@@ -238,6 +239,7 @@ RenderPath globalRenderPath;
 RenderNetgraph globalRenderNetgraph(fbo, vao + fsqModel, glslPrograms, glslCommonUniforms[testTextureProgramIndex]);
 
 KeyframeWindow keyframeWindow(vao, fbo, glslPrograms);
+SpeedControlWindow speedControlWindow(vao, fbo, glslPrograms);
 
 
 //-----------------------------------------------------------------------------
@@ -979,6 +981,11 @@ void setupFramebuffers(unsigned int frameWidth, unsigned int frameHeight)
 		const egpColorFormat colorFormat = COLOR_RGBA32F;
 		fbo[curvesFBO] = egpfwCreateFBO(frameWidth, frameHeight, 1, COLOR_RGB16, DEPTH_DISABLE, SMOOTH_NOWRAP);
 	}
+
+	{ //Speed Control
+		const egpColorFormat colorFormat = COLOR_RGBA32F;
+		fbo[speedControlFBO] = egpfwCreateFBO(frameWidth, frameHeight, 1, COLOR_RGB16, DEPTH_DISABLE, SMOOTH_NOWRAP);
+	}
 }
 
 void deleteFramebuffers()
@@ -1489,8 +1496,10 @@ void handleInputState(float dt)
 
 	// place waypoints
 	bool mouseInKeyframeWindow = keyframeWindow.updateInput(mouse, keybd);
+	bool mouseInSpeedControlWindow = speedControlWindow.updateInput(mouse, keybd);
 	
 	updateCameraControlled(dt, mouse, !mouseInKeyframeWindow);
+	updateCameraControlled(dt, mouse, !mouseInSpeedControlWindow);
 
 	// finish by updating input state
 	egpMouseUpdate(mouse);
@@ -1516,25 +1525,10 @@ void updateGameState(float dt)
 	dt *= (float)(playrate * playing) * 0.01f;
 
 	keyframeWindow.update(dt);
-
-	// update objects here
+	speedControlWindow.update(dt);
 
 	// SKYBOX TRANSFORM: 
 	{
-		// easy way: exact same as the camera's transform (view), but 
-		//	we remove the translation (which makes the background seem 
-		//	infinitely far away), and scale up instead
-
-		/*
-		// multiply view matrix with scale matrix to make modelview
-		skyboxModelViewMatrix = viewMatrix * cbtk::cbmath::makeScale4(minClipDist);
-
-		// remove translation component (by setting 4th column to 0,0,0,1)
-		skyboxModelViewMatrix.c3 = cbmath::v4w;
-
-		// concatenate with proj to get mvp
-		skyboxModelViewProjectionMatrix = projectionMatrix * skyboxModelViewMatrix;*/
-
 		skyboxModelMatrix = cbtk::cbmath::makeScaleTranslate(minClipDist, cameraPosWorld.xyz);
 
 		// concatenate with proj to get mvp
@@ -1549,13 +1543,13 @@ void updateGameState(float dt)
 
 		// calculate model matrix
 		//earthModelMatrix = cbmath::makeRotationZ4(earthTilt) * cbmath::makeRotationY4(earthDaytime);
-		earthModelMatrix = cbmath::makeRotationEuler4XYZ(keyframeWindow.getValAtCurrentTime(KeyframeWindow::CHANNEL_ROT_X) * 3.14f * 2.0f,
-			keyframeWindow.getValAtCurrentTime(KeyframeWindow::CHANNEL_ROT_Y) * 3.14f * 2.0f,
-			keyframeWindow.getValAtCurrentTime(KeyframeWindow::CHANNEL_ROT_Z) * 3.14f * 2.0f);
+		earthModelMatrix = cbmath::makeRotationEuler4XYZ(keyframeWindow.getValAtCurrentTime(KeyframeWindow::CHANNEL_ROT_X, SpeedControlWindow::BEZIER, speedControlWindow.getTVal()) * 3.14f * 2.0f,
+			keyframeWindow.getValAtCurrentTime(KeyframeWindow::CHANNEL_ROT_Y, SpeedControlWindow::BEZIER, speedControlWindow.getTVal()) * 3.14f * 2.0f,
+			keyframeWindow.getValAtCurrentTime(KeyframeWindow::CHANNEL_ROT_Z, SpeedControlWindow::BEZIER, speedControlWindow.getTVal()) * 3.14f * 2.0f);
 
-		earthModelMatrix.c3.x = keyframeWindow.getValAtCurrentTime(KeyframeWindow::CHANNEL_POS_X) * 5.0f;
-		earthModelMatrix.c3.y = keyframeWindow.getValAtCurrentTime(KeyframeWindow::CHANNEL_POS_Y) * 5.0f;
-		earthModelMatrix.c3.z = keyframeWindow.getValAtCurrentTime(KeyframeWindow::CHANNEL_POS_Z) * 5.0f;
+		earthModelMatrix.c3.x = keyframeWindow.getValAtCurrentTime(KeyframeWindow::CHANNEL_POS_X, SpeedControlWindow::BEZIER, speedControlWindow.getTVal()) * 5.0f;
+		earthModelMatrix.c3.y = keyframeWindow.getValAtCurrentTime(KeyframeWindow::CHANNEL_POS_Y, SpeedControlWindow::BEZIER, speedControlWindow.getTVal()) * 5.0f;
+		earthModelMatrix.c3.z = keyframeWindow.getValAtCurrentTime(KeyframeWindow::CHANNEL_POS_Z, SpeedControlWindow::BEZIER, speedControlWindow.getTVal()) * 5.0f;
 
 		// update mvp
 		earthModelViewProjectionMatrix = viewProjMat * earthModelMatrix;
@@ -1711,9 +1705,12 @@ void renderGameState()
 	// Complete our currently selected render path (draws all objects, and whatever other passes are needed).
 	globalRenderPath.render();
 
-	//egpfwActivateFBO(fbo + curvesFBO);
-	//renderCurve();
+	egpfwActivateFBO(fbo + curvesFBO);
 	keyframeWindow.renderToFBO(glslCommonUniforms[drawCurveProgram], glslCommonUniforms[testSolidColorProgramIndex]);
+	//renderCurve();
+	
+	egpfwActivateFBO(fbo + speedControlFBO);
+	speedControlWindow.renderToFBO(glslCommonUniforms[drawCurveProgram], glslCommonUniforms[testSolidColorProgramIndex]);
 
 	//-----------------------------------------------------------------------------
 	//-----------------------------------------------------------------------------
@@ -1737,6 +1734,7 @@ void renderGameState()
 		egpDrawActiveVAO();
 
 		keyframeWindow.renderToBackbuffer(glslCommonUniforms[testTextureProgramIndex]);
+		speedControlWindow.renderToBackbuffer(glslCommonUniforms[testTextureProgramIndex]);
 		
 		/*if (displayNetgraphToggle)
 			globalRenderNetgraph.render();*/
@@ -1854,6 +1852,7 @@ void onResizeWindow(int w, int h)
 		curveDrawingProjectionMatrix.m31 = -(float)win_h / (float)viewport_th;
 		
 		keyframeWindow.updateWindowSize(viewport_tw, viewport_th, tmpNF, win_w, win_h);
+		speedControlWindow.updateWindowSize(viewport_tw, viewport_th, tmpNF, win_w, win_h);
 	}
 
 }

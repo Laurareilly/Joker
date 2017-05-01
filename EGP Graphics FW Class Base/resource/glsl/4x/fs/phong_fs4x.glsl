@@ -48,7 +48,7 @@ void main()
 
 	// 2. specular
 	vec4 V = normalize(pass.eyeVec);
-	vec4 R = (kd+kd)*N - L;
+	vec4 R = (kd+kd) * N - L;
 	float ks = dot(V, R);
 
 	// 3. clamp & exponent

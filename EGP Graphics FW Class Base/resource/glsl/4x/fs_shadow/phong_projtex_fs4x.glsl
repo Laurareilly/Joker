@@ -43,7 +43,7 @@ vec2 booleanSample = vec2(0, 0);
 void main()
 {
 	//adjust for perspective!!
-	vec4 projector_uv = pass.position_clip_alt / pass.position_clip_alt.w;
+	vec4 projector_uv = pass.position_clip_alt / pass.position_clip_alt.w; //to give things perspective, things wont get smaller wihtout this
 
 	vec4 projColor = texture(projtex, projector_uv.xy);
 

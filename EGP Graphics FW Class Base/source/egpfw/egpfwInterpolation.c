@@ -29,14 +29,14 @@ float egpfwCatmullRom(const float vPrev, const float v0, const float v1, const f
 	//...
 	float t = param;
 	float t2 = t * t;
-	float t3 = t2 * param;
+	float t3 = t * t * t;
 
-	float part1 = vPrev * (-t + 2.0f * t2 - t3);
-	float part2 = v0 * (2 - 5.0f * t2 + 3.0f * t3);
-	float part3 = v1 * (t + 4.0f * t2 - 3.0f * t3);
-	float part4 = vNext * (-1.0f * t2 + t3);
+	float part1 = (-t + 2.0f * t2 - t3);
+	float part2 = (2 - 5.0f * t2 + 3.0f * t3);
+	float part3 = (t + 4.0f * t2 - 3.0f * t3);
+	float part4 = -t2 + t3;
 
-	return 0.5f * (part1 + part2 + part3 + part4);
+	return 0.5f * (vPrev * part1 + v0 * part2 + v1 * part3 + vNext * part4);
 }
 
 
