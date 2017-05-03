@@ -33,7 +33,7 @@ void SpeedControlWindow::resetKeyframes()
 	//Clear everything, then set a point with an effective y value of 0 at the start and end.
 
 	cbmath::vec4 zeroVec = cbmath::vec4(0.0f, mWindowSize.y / 2.0f, 0.0f, 1.0f);
-	cbmath::vec4 oneVec = cbmath::vec4(mWindowSize.x, mWindowSize.y / 2.0f, 0.0f, 1.0f);
+	cbmath::vec4 oneVec = cbmath::vec4(mWindowSize.x, mWindowSize.y, 0.0f, 1.0f);
 
 	for (auto& list : mWaypointChannels)
 	{
