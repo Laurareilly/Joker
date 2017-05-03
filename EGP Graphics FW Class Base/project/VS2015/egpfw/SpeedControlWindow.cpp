@@ -7,12 +7,15 @@
 #include <GL/freeglut.h>
 
 // Constant array of colors used to draw the lines on the keyframe window
-const std::array<cbmath::vec4, SpeedControlWindow::NUM_CURVES + 1> COLORS =
+const std::array<cbmath::vec4, SpeedControlWindow::NUM_CHANNELS + 1> COLORS =
 {
 	cbmath::vec4(1.0f, 0.0f, 0.0f, 1.0f),
 	cbmath::vec4(0.0f, 1.0f, 0.0f, 1.0f),
 	cbmath::vec4(0.0f, 0.0f, 1.0f, 1.0f),
-	cbmath::vec4(1.0f, 0.9f, 0.0f, 1.0f),
+	cbmath::vec4(1.0f, 0.0f, 0.0f, 1.0f),
+	cbmath::vec4(0.0f, 1.0f, 0.0f, 1.0f),
+	cbmath::vec4(0.0f, 0.0f, 1.0f, 1.0f),
+	cbmath::vec4(1.0f, 1.0f, 1.0f, 1.0f),
 };
 
 SpeedControlWindow::SpeedControlWindow(egpVertexArrayObjectDescriptor* vao, egpFrameBufferObjectDescriptor* fbo, egpProgram* programs)
@@ -21,7 +24,7 @@ SpeedControlWindow::SpeedControlWindow(egpVertexArrayObjectDescriptor* vao, egpF
 	mVAOList = vao;
 	mFBOList = fbo;
 	mProgramList = programs;
-	mCurrentCurve = BEZIER;
+	mCurrentCurve = LINES;
 	mIsPaused = false;
 }
 
@@ -41,9 +44,27 @@ void SpeedControlWindow::resetKeyframes()
 	}
 }
 
-float SpeedControlWindow::calculateBezier(std::array<std::vector<cbmath::vec4>, NUM_CURVES> points, unsigned int order, const float param)
+float SpeedControlWindow::calculateLerp(const float v0, const float v1, float t)
 {
-	return 0.0f;
+	return v0 + (v1 - v0) * t;
+}
+
+float SpeedControlWindow::calculateBezier()
+{
+	//int size = mWaypointChannels[mCurrentChannel].size();
+	//if (size == 1)
+	//{
+	//	return mWaypointChannels[mCurrentChannel][0].y; //if there's only one point we're doing first order bezier so return it's only point
+	//}
+
+	//float p1 = calculateBezier();
+	//float p2 = calculateBezier();
+
+	//float p = (1 - mCurrentTime) * p1 + p2;
+
+	//return p;
+
+	return 1;
 }
 
 float SpeedControlWindow::calculateCatmullRom(const float vPrev, const float v0, const float v1, const float vNext, const float param)
@@ -72,25 +93,37 @@ float SpeedControlWindow::calculateCubicHermite(const float v0, const float dv0,
 	float part4 = dv1 * (-1.0 * t2 + t3);
 
 	return part1 + part2 + part3 + part4;
-
-	return 0.0f;
 }
 
 bool SpeedControlWindow::updateInput(egpMouse* m, egpKeyboard* key)
 {
-	if (egpKeyboardIsKeyPressed(key, 'y'))
+	if (egpKeyboardIsKeyPressed(key, 'w'))
 		resetKeyframes();
 
 	if (egpKeyboardIsKeyPressed(key, ' '))
 		mIsPaused = !mIsPaused;
 
 	//Change our "mode"
-	for (unsigned char c = '1', i = 0; i <= NUM_CURVES; ++c, ++i)
+	for (unsigned char c = '7', i = 0; i < ':'; ++c, ++i) //ascii : comes after 9
 	{
 		if (egpKeyboardIsKeyPressed(key, c))
 		{
 			mCurrentCurve = static_cast<CurveType>(i);
 			std::cout << mCurrentCurve << std::endl;
+		}
+	}
+
+	if (egpKeyboardIsKeyPressed(key, '0'))
+	{
+		mCurrentCurve = static_cast<CurveType>(CUBIC_HERMITE);
+		std::cout << mCurrentCurve << std::endl;
+	}
+
+	for (unsigned char c = '1', i = 0; i < NUM_CHANNELS; ++c, ++i)
+	{
+		if (egpKeyboardIsKeyPressed(key, c))
+		{
+			mCurrentChannel = static_cast<KeyframeChannel>(i);
 		}
 	}
 
@@ -104,26 +137,26 @@ bool SpeedControlWindow::updateInput(egpMouse* m, egpKeyboard* key)
 		return false;
 	}
 
-	//If the mouse is pressed down and we're in "NUM_CURVES" mode, scrub the keyhead
-	if (egpMouseIsButtonDown(m, 0) && mCurrentCurve == NUM_CURVES)
+	//If the mouse is pressed down and we're in "NUM_CHANNELS" mode, scrub the keyhead
+	if (egpMouseIsButtonDown(m, 0) && mCurrentChannel == NUM_CHANNELS)
 	{
 		mCurrentTime = (mousePos.x / mWindowSize.x) * 2.0f;
 		return true;
 	}
 
 	//If the mouse is pressed and we're in a channel mode, set the t value
-	if (egpMouseIsButtonPressed(m, 0) && mCurrentCurve != NUM_CURVES)
+	if (egpMouseIsButtonPressed(m, 0) && mCurrentChannel != NUM_CHANNELS)
 	{
 		size_t insertIndex;
-		for (insertIndex = 0; insertIndex < mWaypointChannels[mCurrentCurve].size(); insertIndex++)
+		for (insertIndex = 0; insertIndex < mWaypointChannels[mCurrentChannel].size(); insertIndex++)
 		{
-			if (mWaypointChannels[mCurrentCurve][insertIndex].x > mousePos.x)
+			if (mWaypointChannels[mCurrentChannel][insertIndex].x > mousePos.x)
 				break;
 		}
 
-		mCurrentTVal = mousePos.y / mWindowSize.y;
-		std::cout << "\nT-val: " << getTVal(mCurrentCurve) << std::endl;
-		mWaypointChannels[mCurrentCurve].insert(mWaypointChannels[mCurrentCurve].begin() + insertIndex, mousePos);
+		//mCurrentTVal = mousePos.y / mWindowSize.y;
+		std::cout << "\nT-val: " << getTVal(mCurrentChannel) << std::endl;
+		mWaypointChannels[mCurrentChannel].insert(mWaypointChannels[mCurrentChannel].begin() + insertIndex, mousePos);
 	}
 
 	return true;
@@ -163,11 +196,11 @@ void SpeedControlWindow::updateWindowSize(float viewport_tw, float viewport_th, 
 	resetKeyframes();
 }
 
-float SpeedControlWindow::getTVal(int curve)
+float SpeedControlWindow::getTVal(int channel)
 {
 	using namespace cbmath;
 
-	auto& list = mWaypointChannels[curve];
+	auto& list = mWaypointChannels[channel];
 	
 
 	if (list.size() == 0)
@@ -178,7 +211,7 @@ float SpeedControlWindow::getTVal(int curve)
 	//If we have at least 2 positions, loop through the list and find 
 	//the ones that are to the left and to the right of current time.
 	float leftXTime, rightXTime;
-	vec4 posToLeft, posToRight;
+	vec4 posToLeft, posToRight, prevPos, nextPos;
 
 	for (size_t i = 0; i < list.size() - 1; i++)
 	{
@@ -189,23 +222,46 @@ float SpeedControlWindow::getTVal(int curve)
 		{
 			posToLeft = list[i];
 			posToRight = list[i + 1];
+
+			int prevPosIndex = i - 1;
+			if (prevPosIndex <= 0)
+			{
+				prevPos = list[list.size() - 1];
+			}
+			else
+			{
+				prevPos = list[i - 1];
+			}
+
+			int nextPosIndex = i + 2;
+			if (nextPosIndex >= list.size())
+			{
+				nextPos = list[0];
+			}
+			else
+			{
+				nextPos = list[i + 2];
+			}
+
 			break;
 		}
 	}
 
-	switch (curve)
+	switch (channel)
 	{
-	case SpeedControlWindow::BEZIER:
-		return calculateBezier(mWaypointChannels, 0, mCurrentTime) * 2.0f / mWindowSize.y - 1.0; //i dont know what im doing
-	case SpeedControlWindow::CATMULL_ROM:
-		break;
-		//return calculateCatmullRom(posToLeft.y, )
-	case SpeedControlWindow::CUBIC_HERMITE:
-		break;
-		//return calculateCubicHermite();
-	case SpeedControlWindow::NUM_CURVES:
-	default:
-		break;
+		case SpeedControlWindow::LINES:
+			return calculateLerp(posToLeft.y, posToRight.y, mCurrentTime) / mWindowSize.y; 
+		case SpeedControlWindow::BEZIER:
+			return calculateBezier() / mWindowSize.y; 
+		case SpeedControlWindow::CATMULL_ROM:
+			return calculateCatmullRom(prevPos.y, posToLeft.y, posToRight.y, nextPos.y, mCurrentTime) / mWindowSize.y;
+		case SpeedControlWindow::CUBIC_HERMITE:
+			//return calculateCubicHermite(posToLeft.y, something, posToRight.y, something, mCurrentTime) / mWindowSize.y;
+			return 0;
+		case SpeedControlWindow::NUM_CURVES:
+			return 0;
+		default:
+			break;
 	}
 }
 
@@ -237,7 +293,7 @@ void SpeedControlWindow::renderToFBO(int* curveUniformSet, int* solidColorUnifor
 		egpSendUniformFloat(curveUniformSet[unif_waypoint], UNIF_VEC4, vecSize, mWaypointChannels[i].data()->v);
 		egpSendUniformFloat(solidColorUniformSet[unif_color], UNIF_VEC4, 1, COLORS[i].v);
 		egpSendUniformInt(curveUniformSet[unif_waypointCount], UNIF_INT, 1, &vecSize);
-		egpSendUniformInt(curveUniformSet[unif_curveMode], UNIF_INT, 1, &zeroTest);
+		egpSendUniformInt(curveUniformSet[unif_curveMode], (egpUniformIntType)mCurrentCurve, 1, &zeroTest); //is this how i set the curve in teh shader?
 		egpSendUniformInt(curveUniformSet[unif_useWaypoints], UNIF_INT, 1, &trueTest);
 
 		egpActivateVAO(mVAOList + pointModel);
@@ -267,30 +323,13 @@ void SpeedControlWindow::renderToFBO(int* curveUniformSet, int* solidColorUnifor
 	egpSendUniformFloatMatrix(curveUniformSet[unif_mvp], UNIF_MAT4, 1, 0, mLittleBoxWindowMatrix.m);
 
 	egpSendUniformFloat(curveUniformSet[unif_waypoint], UNIF_VEC4, vecSize, points[0].v);
-	egpSendUniformFloat(solidColorUniformSet[unif_color], UNIF_VEC4, 1, COLORS[NUM_CURVES].v);
+	egpSendUniformFloat(solidColorUniformSet[unif_color], UNIF_VEC4, 1, COLORS[NUM_CHANNELS].v);
 	egpSendUniformInt(curveUniformSet[unif_waypointCount], UNIF_INT, 1, &twoTest);
 	egpSendUniformInt(curveUniformSet[unif_curveMode], UNIF_INT, 1, &zeroTest);
 	egpSendUniformInt(curveUniformSet[unif_useWaypoints], UNIF_INT, 1, &trueTest);
 
 	egpActivateVAO(mVAOList + pointModel);
 	egpDrawActiveVAO();
-
-	//Draw the x axis
-	//points[0] = cbmath::vec4(0.0f, mWindowSize.y / 2.0f, 0.0f, 1.0f);
-	//points[1] = cbmath::vec4(mWindowSize.x, mWindowSize.y / 2.0f, 0.0f, 1.0f);
-
-	//egpActivateProgram(mProgramList + drawCurveProgram);
-	//egpSendUniformFloatMatrix(curveUniformSet[unif_mvp], UNIF_MAT4, 1, 0, mLittleBoxWindowMatrix.m);
-
-	//egpSendUniformFloat(curveUniformSet[unif_waypoint], UNIF_VEC4, vecSize, points[0].v);
-	//egpSendUniformFloat(solidColorUniformSet[unif_color], UNIF_VEC4, 1, COLORS[2].v);
-	//egpSendUniformInt(curveUniformSet[unif_waypointCount], UNIF_INT, 1, &twoTest);
-	//egpSendUniformInt(curveUniformSet[unif_curveMode], UNIF_INT, 1, &zeroTest);
-	//egpSendUniformInt(curveUniformSet[unif_useWaypoints], UNIF_INT, 1, &trueTest);
-
-	//egpActivateVAO(mVAOList + pointModel);
-	//egpDrawActiveVAO();
-
 }
 
 void SpeedControlWindow::renderToBackbuffer(int* textureUniformSet)

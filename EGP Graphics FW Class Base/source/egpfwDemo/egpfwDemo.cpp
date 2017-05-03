@@ -1429,11 +1429,11 @@ void displayControls()
 	printf("\n l = real-time reload all shaders");
 	printf("\n x = toggle coordinate axes post-draw");
 
-	//printf("\n 0-9 = toggle pipeline stage to be displayed");
 	printf("\n 1-6 = change the keyframe control channel");
-	printf("\n 7 = switch to keyframe scrub mode");
+	printf("\n 7-0 = change the current curve mode");
 	printf("\n space = toggle whether the keyframe window is paused");
-	printf("\n y = clear all keyframes");
+	printf("\n q = clear all keyframes on left");
+	printf("\n w = clear all keyframes on right");
 
 	printf("\n-------------------------------------------------------");
 }
@@ -1543,13 +1543,15 @@ void updateGameState(float dt)
 
 		// calculate model matrix
 		//earthModelMatrix = cbmath::makeRotationZ4(earthTilt) * cbmath::makeRotationY4(earthDaytime);
-		earthModelMatrix = cbmath::makeRotationEuler4XYZ(keyframeWindow.getValAtCurrentTime(KeyframeWindow::CHANNEL_ROT_X, speedControlWindow.getTVal(speedControlWindow.getCurve())) * 3.14f * 2.0f,
-			keyframeWindow.getValAtCurrentTime(KeyframeWindow::CHANNEL_ROT_Y, speedControlWindow.getTVal(speedControlWindow.getCurve())) * 3.14f * 2.0f,
-			keyframeWindow.getValAtCurrentTime(KeyframeWindow::CHANNEL_ROT_Z, speedControlWindow.getTVal(speedControlWindow.getCurve())) * 3.14f * 2.0f);
+		earthModelMatrix = cbmath::makeRotationEuler4XYZ(keyframeWindow.getValAtCurrentTime(KeyframeWindow::CHANNEL_ROT_X, speedControlWindow.getTVal(KeyframeWindow::CHANNEL_ROT_X)) * 3.14f * 2.0f,
+			keyframeWindow.getValAtCurrentTime(KeyframeWindow::CHANNEL_ROT_Y, speedControlWindow.getTVal(KeyframeWindow::CHANNEL_ROT_Y)) * 3.14f * 2.0f,
+			keyframeWindow.getValAtCurrentTime(KeyframeWindow::CHANNEL_ROT_Z, speedControlWindow.getTVal(KeyframeWindow::CHANNEL_ROT_Z)) * 3.14f * 2.0f);
 
-		earthModelMatrix.c3.x = keyframeWindow.getValAtCurrentTime(KeyframeWindow::CHANNEL_POS_X, speedControlWindow.getTVal(speedControlWindow.getCurve())) * 5.0f;
-		earthModelMatrix.c3.y = keyframeWindow.getValAtCurrentTime(KeyframeWindow::CHANNEL_POS_Y, speedControlWindow.getTVal(speedControlWindow.getCurve())) * 5.0f;
-		earthModelMatrix.c3.z = keyframeWindow.getValAtCurrentTime(KeyframeWindow::CHANNEL_POS_Z, speedControlWindow.getTVal(speedControlWindow.getCurve())) * 5.0f;
+		earthModelMatrix.c3.x = keyframeWindow.getValAtCurrentTime(KeyframeWindow::CHANNEL_POS_X, speedControlWindow.getTVal(KeyframeWindow::CHANNEL_POS_X)) * 5.0f;
+		earthModelMatrix.c3.y = keyframeWindow.getValAtCurrentTime(KeyframeWindow::CHANNEL_POS_Y, speedControlWindow.getTVal(KeyframeWindow::CHANNEL_POS_Y)) * 5.0f;
+		earthModelMatrix.c3.z = keyframeWindow.getValAtCurrentTime(KeyframeWindow::CHANNEL_POS_Z, speedControlWindow.getTVal(KeyframeWindow::CHANNEL_POS_Z)) * 5.0f;
+
+		//printf("T value: %d\n", speedControlWindow.getTVal(speedControlWindow.getCurve()));
 
 		// update mvp
 		earthModelViewProjectionMatrix = viewProjMat * earthModelMatrix;
@@ -1706,8 +1708,7 @@ void renderGameState()
 	globalRenderPath.render();
 
 	egpfwActivateFBO(fbo + curvesFBO);
-	keyframeWindow.renderToFBO(glslCommonUniforms[drawCurveProgram], glslCommonUniforms[testSolidColorProgramIndex]);
-	//renderCurve();
+	keyframeWindow.renderToFBO(glslCommonUniforms[drawCurveProgram], glslCommonUniforms[testSolidColorProgramIndex], speedControlWindow.getTVal(keyframeWindow.getCurrentChannel()));
 	
 	egpfwActivateFBO(fbo + speedControlFBO);
 	speedControlWindow.renderToFBO(glslCommonUniforms[drawCurveProgram], glslCommonUniforms[testSolidColorProgramIndex]);

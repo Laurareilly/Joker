@@ -120,6 +120,15 @@ vec4 sampleCubicHermite(in vec4 p0, in vec4 m0, in vec4 p1, in vec4 m1, const fl
 	vec4 result = points * cat;
 
 	return result;
+
+	//float t2 = t*t;
+	//float t3 = t*t*t;
+
+	//vec4 h00 = (1 - 3*t2 + 2*t3)*p0
+	//vec4 h10 = (t - 2*t2 + t3)*m0;
+	//vec4 h01 = (3*t2 - 2*t3)*p1;
+	//vec4 h11 = (t3 - t2)*m1;
+	//return h00 + h10 + h01 + h11;
 }
 
 

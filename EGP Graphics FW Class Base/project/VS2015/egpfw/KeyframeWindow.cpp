@@ -28,11 +28,6 @@ KeyframeWindow::KeyframeWindow(egpVertexArrayObjectDescriptor* vao, egpFrameBuff
 	mIsPaused = false;
 }
 
-KeyframeWindow::~KeyframeWindow()
-{
-
-}
-
 void KeyframeWindow::resetKeyframes()
 {
 	//Clear everything, then set a point with an effective y value of 0 at the start and end.
@@ -51,14 +46,14 @@ void KeyframeWindow::resetKeyframes()
 
 bool KeyframeWindow::updateInput(egpMouse* m, egpKeyboard* key)
 {
-	if (egpKeyboardIsKeyPressed(key, 'y'))
+	if (egpKeyboardIsKeyPressed(key, 'q'))
 		resetKeyframes();
 
 	if (egpKeyboardIsKeyPressed(key, ' '))
 		mIsPaused = !mIsPaused;
 
 	//Change our "mode"
-	for (unsigned char c = '1', i = 0; i <= NUM_OF_CHANNELS; ++c, ++i)
+	for (unsigned char c = '1', i = 0; i < NUM_OF_CHANNELS; ++c, ++i)
 	{
 		if (egpKeyboardIsKeyPressed(key, c))
 			mCurrentChannel = static_cast<KeyframeChannel>(i);
@@ -162,7 +157,7 @@ float KeyframeWindow::getValAtCurrentTime(KeyframeChannel c, float t)
 }
 
 
-void KeyframeWindow::renderToFBO(int* curveUniformSet, int* solidColorUniformSet)
+void KeyframeWindow::renderToFBO(int* curveUniformSet, int* solidColorUniformSet, float t)
 {	
 	int j;
 	cbmath::vec4 *waypointPtr;
@@ -215,7 +210,7 @@ void KeyframeWindow::renderToFBO(int* curveUniformSet, int* solidColorUniformSet
 	}
 
 	//Drew all the keyframes. Now, draw the scrub head thing.
-	cbmath::vec4 points[2] = { cbmath::vec4(mCurrentTime / 2.0f * mWindowSize.x, 0.0f, 0.0f, 1.0f), cbmath::vec4(mCurrentTime / 2.0f * mWindowSize.x, mWindowSize.y, 0.0f, 1.0f) };
+	cbmath::vec4 points[2] = { cbmath::vec4(t / 2 * mWindowSize.x, 0.0f, 0.0f, 1.0f), cbmath::vec4(t / 2 * mWindowSize.x, mWindowSize.y, 0.0f, 1.0f) };
 	egpActivateProgram(mProgramList + drawCurveProgram);
 	egpSendUniformFloatMatrix(curveUniformSet[unif_mvp], UNIF_MAT4, 1, 0, mLittleBoxWindowMatrix.m);
 

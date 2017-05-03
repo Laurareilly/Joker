@@ -15,10 +15,22 @@ public:
 
 	enum CurveType
 	{
-		BEZIER = 0,
+		LINES = 0,
+		BEZIER,
 		CATMULL_ROM,
 		CUBIC_HERMITE,
 		NUM_CURVES
+	};
+
+	enum KeyframeChannel
+	{
+		CHANNEL_POS_X = 0,
+		CHANNEL_POS_Y,
+		CHANNEL_POS_Z,
+		CHANNEL_ROT_X,
+		CHANNEL_ROT_Y,
+		CHANNEL_ROT_Z,
+		NUM_CHANNELS,
 	};
 
 private:
@@ -26,7 +38,7 @@ private:
 	egpFrameBufferObjectDescriptor* mFBOList;
 	egpProgram* mProgramList;
 
-	std::array<std::vector<cbmath::vec4>, NUM_CURVES> mWaypointChannels;
+	std::array<std::vector<cbmath::vec4>, NUM_CHANNELS> mWaypointChannels;
 	
 	cbmath::vec2 mWindowSize;
 	cbmath::mat4 mLittleBoxWindowMatrix;
@@ -34,6 +46,7 @@ private:
 	float mCurrentTime;
 	bool mIsPaused;
 	CurveType mCurrentCurve;
+	KeyframeChannel mCurrentChannel;
 	float mCurrentTVal;
 	
 	float mWindowScale;
@@ -41,7 +54,8 @@ private:
 
 	void resetKeyframes();
 
-	float calculateBezier(std::array<std::vector<cbmath::vec4>, NUM_CURVES> points, unsigned int order, const float param);
+	float calculateLerp(const float v0, const float v1, float t);
+	float calculateBezier();
 	float calculateCatmullRom(const float vPrev, const float v0, const float v1, const float vNext, const float param);
 	float calculateCubicHermite(const float v0, const float dv0, const float v1, const float dv1, const float param);
 
@@ -53,7 +67,7 @@ public:
 	void update(float deltaT);
 	void updateWindowSize(float viewport_tw, float viewport_th, float tmpNF, float win_w, float win_h);
 
-	float getTVal(int curve);
+	float getTVal(int channel);
 	CurveType getCurve() { return mCurrentCurve; }
 
 	cbmath::mat4& getOnScreenMatrix() { return mOnScreenMatrix; }

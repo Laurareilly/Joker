@@ -41,7 +41,7 @@ class KeyframeWindow
 
 	public:
 		KeyframeWindow(egpVertexArrayObjectDescriptor* vao, egpFrameBufferObjectDescriptor* fbo, egpProgram* programs);
-		~KeyframeWindow();
+		~KeyframeWindow() {};
 
 		//
 
@@ -56,7 +56,8 @@ class KeyframeWindow
 	
 		cbmath::mat4& getOnScreenMatrix() { return mOnScreenMatrix; }
 
-		void renderToFBO(int* curveUniformSet, int* solidColorUniformSet);
+		void renderToFBO(int* curveUniformSet, int* solidColorUniformSet, float t);
 		void renderToBackbuffer(int* textureUniformSet);
+		KeyframeChannel getCurrentChannel() { return mCurrentChannel; }
 };
 
