@@ -115,6 +115,12 @@ float egpfwBezier(const float *v, unsigned int order, const float param)
 	//...
 	return 0.0f;
 }
+//
+//float egpfwBezier(vector<int> list, unsigned int order, const float param)
+//{
+//	//...
+//	return 0.0f;
+//}
 
 
 // ****

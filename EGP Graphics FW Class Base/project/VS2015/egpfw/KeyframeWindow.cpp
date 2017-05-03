@@ -127,7 +127,7 @@ void KeyframeWindow::updateWindowSize(float viewport_tw, float viewport_th, floa
 	resetKeyframes();
 }
 
-float KeyframeWindow::getValAtCurrentTime(KeyframeChannel c, SpeedControlWindow::CurveType curveType, float t)
+float KeyframeWindow::getValAtCurrentTime(KeyframeChannel c, float t)
 {
 		using namespace cbmath;
 	

@@ -1543,13 +1543,13 @@ void updateGameState(float dt)
 
 		// calculate model matrix
 		//earthModelMatrix = cbmath::makeRotationZ4(earthTilt) * cbmath::makeRotationY4(earthDaytime);
-		earthModelMatrix = cbmath::makeRotationEuler4XYZ(keyframeWindow.getValAtCurrentTime(KeyframeWindow::CHANNEL_ROT_X, SpeedControlWindow::BEZIER, speedControlWindow.getTVal()) * 3.14f * 2.0f,
-			keyframeWindow.getValAtCurrentTime(KeyframeWindow::CHANNEL_ROT_Y, SpeedControlWindow::BEZIER, speedControlWindow.getTVal()) * 3.14f * 2.0f,
-			keyframeWindow.getValAtCurrentTime(KeyframeWindow::CHANNEL_ROT_Z, SpeedControlWindow::BEZIER, speedControlWindow.getTVal()) * 3.14f * 2.0f);
+		earthModelMatrix = cbmath::makeRotationEuler4XYZ(keyframeWindow.getValAtCurrentTime(KeyframeWindow::CHANNEL_ROT_X, speedControlWindow.getTVal(speedControlWindow.getCurve())) * 3.14f * 2.0f,
+			keyframeWindow.getValAtCurrentTime(KeyframeWindow::CHANNEL_ROT_Y, speedControlWindow.getTVal(speedControlWindow.getCurve())) * 3.14f * 2.0f,
+			keyframeWindow.getValAtCurrentTime(KeyframeWindow::CHANNEL_ROT_Z, speedControlWindow.getTVal(speedControlWindow.getCurve())) * 3.14f * 2.0f);
 
-		earthModelMatrix.c3.x = keyframeWindow.getValAtCurrentTime(KeyframeWindow::CHANNEL_POS_X, SpeedControlWindow::BEZIER, speedControlWindow.getTVal()) * 5.0f;
-		earthModelMatrix.c3.y = keyframeWindow.getValAtCurrentTime(KeyframeWindow::CHANNEL_POS_Y, SpeedControlWindow::BEZIER, speedControlWindow.getTVal()) * 5.0f;
-		earthModelMatrix.c3.z = keyframeWindow.getValAtCurrentTime(KeyframeWindow::CHANNEL_POS_Z, SpeedControlWindow::BEZIER, speedControlWindow.getTVal()) * 5.0f;
+		earthModelMatrix.c3.x = keyframeWindow.getValAtCurrentTime(KeyframeWindow::CHANNEL_POS_X, speedControlWindow.getTVal(speedControlWindow.getCurve())) * 5.0f;
+		earthModelMatrix.c3.y = keyframeWindow.getValAtCurrentTime(KeyframeWindow::CHANNEL_POS_Y, speedControlWindow.getTVal(speedControlWindow.getCurve())) * 5.0f;
+		earthModelMatrix.c3.z = keyframeWindow.getValAtCurrentTime(KeyframeWindow::CHANNEL_POS_Z, speedControlWindow.getTVal(speedControlWindow.getCurve())) * 5.0f;
 
 		// update mvp
 		earthModelViewProjectionMatrix = viewProjMat * earthModelMatrix;

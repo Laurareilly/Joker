@@ -41,6 +41,41 @@ void SpeedControlWindow::resetKeyframes()
 	}
 }
 
+float SpeedControlWindow::calculateBezier(std::array<std::vector<cbmath::vec4>, NUM_CURVES> points, unsigned int order, const float param)
+{
+	return 0.0f;
+}
+
+float SpeedControlWindow::calculateCatmullRom(const float vPrev, const float v0, const float v1, const float vNext, const float param)
+{
+	float t = param;
+	float t2 = t * t;
+	float t3 = t * t * t;
+
+	float part1 = (-t + 2.0f * t2 - t3);
+	float part2 = (2 - 5.0f * t2 + 3.0f * t3);
+	float part3 = (t + 4.0f * t2 - 3.0f * t3);
+	float part4 = -t2 + t3;
+
+	return 0.5f * (vPrev * part1 + v0 * part2 + v1 * part3 + vNext * part4);
+}
+
+float SpeedControlWindow::calculateCubicHermite(const float v0, const float dv0, const float v1, const float dv1, const float param)
+{
+	float t = param;
+	float t2 = t * t;
+	float t3 = t2 * t;
+
+	float part1 = v0 * (1 - 3.0 * t2 + 2.0 * t3);
+	float part2 = dv0 * (t - 2.0 * t2 + t3);
+	float part3 = v1 * (3.0 * t2 - 2.0 * t3);
+	float part4 = dv1 * (-1.0 * t2 + t3);
+
+	return part1 + part2 + part3 + part4;
+
+	return 0.0f;
+}
+
 bool SpeedControlWindow::updateInput(egpMouse* m, egpKeyboard* key)
 {
 	if (egpKeyboardIsKeyPressed(key, 'y'))
@@ -53,7 +88,10 @@ bool SpeedControlWindow::updateInput(egpMouse* m, egpKeyboard* key)
 	for (unsigned char c = '1', i = 0; i <= NUM_CURVES; ++c, ++i)
 	{
 		if (egpKeyboardIsKeyPressed(key, c))
+		{
 			mCurrentCurve = static_cast<CurveType>(i);
+			std::cout << mCurrentCurve << std::endl;
+		}
 	}
 
 	cbmath::vec4 mousePos(egpMouseX(m), mWindowSize.y - egpMouseY(m), 0.0f, 1.0f);
@@ -84,7 +122,7 @@ bool SpeedControlWindow::updateInput(egpMouse* m, egpKeyboard* key)
 		}
 
 		mCurrentTVal = mousePos.y / mWindowSize.y;
-		std::cout << "\nT-val: " << mCurrentTVal << std::endl;
+		std::cout << "\nT-val: " << getTVal(mCurrentCurve) << std::endl;
 		mWaypointChannels[mCurrentCurve].insert(mWaypointChannels[mCurrentCurve].begin() + insertIndex, mousePos);
 	}
 
@@ -123,6 +161,52 @@ void SpeedControlWindow::updateWindowSize(float viewport_tw, float viewport_th, 
 		throw std::invalid_argument("I have no idea how this is possible, but our on-screen transformation matrix could not be inverted!");
 
 	resetKeyframes();
+}
+
+float SpeedControlWindow::getTVal(int curve)
+{
+	using namespace cbmath;
+
+	auto& list = mWaypointChannels[curve];
+	
+
+	if (list.size() == 0)
+		return 0.0f;
+	else if (list.size() == 1)
+		return list[0].y;
+
+	//If we have at least 2 positions, loop through the list and find 
+	//the ones that are to the left and to the right of current time.
+	float leftXTime, rightXTime;
+	vec4 posToLeft, posToRight;
+
+	for (size_t i = 0; i < list.size() - 1; i++)
+	{
+		leftXTime = (list[i].x / mWindowSize.x) * 2.0f;
+		rightXTime = (list[i + 1].x / mWindowSize.x) * 2.0f;
+
+		if (leftXTime <= mCurrentTime && rightXTime >= mCurrentTime)
+		{
+			posToLeft = list[i];
+			posToRight = list[i + 1];
+			break;
+		}
+	}
+
+	switch (curve)
+	{
+	case SpeedControlWindow::BEZIER:
+		return calculateBezier(mWaypointChannels, 0, mCurrentTime) * 2.0f / mWindowSize.y - 1.0; //i dont know what im doing
+	case SpeedControlWindow::CATMULL_ROM:
+		break;
+		//return calculateCatmullRom(posToLeft.y, )
+	case SpeedControlWindow::CUBIC_HERMITE:
+		break;
+		//return calculateCubicHermite();
+	case SpeedControlWindow::NUM_CURVES:
+	default:
+		break;
+	}
 }
 
 void SpeedControlWindow::renderToFBO(int* curveUniformSet, int* solidColorUniformSet)
