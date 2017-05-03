@@ -49,22 +49,36 @@ float SpeedControlWindow::calculateLerp(const float v0, const float v1, float t)
 	return v0 + (v1 - v0) * t;
 }
 
+cbmath::vec2 calculateLerpv2(const cbmath::vec2 v0, const cbmath::vec2 v1, float t)
+{
+	return v0 + (v1 - v0) * t;
+}
+
 float SpeedControlWindow::calculateBezier()
 {
-	//int size = mWaypointChannels[mCurrentChannel].size();
-	//if (size == 1)
-	//{
-	//	return mWaypointChannels[mCurrentChannel][0].y; //if there's only one point we're doing first order bezier so return it's only point
-	//}
+	// Charlie helped me with this
 
-	//float p1 = calculateBezier();
-	//float p2 = calculateBezier();
+	if (mCurrentTime > 2.0f) mCurrentTime = 2.0f;
+	int channelSize = mWaypointChannels[mCurrentChannel].size();
+	cbmath::vec2* vals = new cbmath::vec2[channelSize];
 
-	//float p = (1 - mCurrentTime) * p1 + p2;
+	for (int i = 0; i < channelSize; i++)
+	{
+		vals[i].x = mWaypointChannels[mCurrentChannel][i].x;
+		vals[i].y = mWaypointChannels[mCurrentChannel][i].y;
+	}
 
-	//return p;
+	for (; channelSize > 1; channelSize--)
+	{
+		for (int j = 0; j < channelSize - 1; j++)
+		{
+			vals[j] = calculateLerpv2(vals[j], vals[j + 1], mCurrentTime);
+		}
+	}
 
-	return 1;
+	float val = vals[0].y;
+	delete[] vals;
+	return val;
 }
 
 float SpeedControlWindow::calculateCatmullRom(const float vPrev, const float v0, const float v1, const float vNext, const float param)
@@ -247,7 +261,7 @@ float SpeedControlWindow::getTVal(int channel)
 		}
 	}
 
-	switch (channel)
+	switch (mCurrentCurve)
 	{
 		case SpeedControlWindow::LINES:
 			return calculateLerp(posToLeft.y, posToRight.y, mCurrentTime) / mWindowSize.y; 
@@ -259,8 +273,6 @@ float SpeedControlWindow::getTVal(int channel)
 			//return calculateCubicHermite(posToLeft.y, something, posToRight.y, something, mCurrentTime) / mWindowSize.y;
 			return 0;
 		case SpeedControlWindow::NUM_CURVES:
-			return 0;
-		default:
 			break;
 	}
 }
@@ -293,7 +305,8 @@ void SpeedControlWindow::renderToFBO(int* curveUniformSet, int* solidColorUnifor
 		egpSendUniformFloat(curveUniformSet[unif_waypoint], UNIF_VEC4, vecSize, mWaypointChannels[i].data()->v);
 		egpSendUniformFloat(solidColorUniformSet[unif_color], UNIF_VEC4, 1, COLORS[i].v);
 		egpSendUniformInt(curveUniformSet[unif_waypointCount], UNIF_INT, 1, &vecSize);
-		egpSendUniformInt(curveUniformSet[unif_curveMode], (egpUniformIntType)mCurrentCurve, 1, &zeroTest); //is this how i set the curve in teh shader?
+		int curvemode = (int)mCurrentCurve;
+		egpSendUniformInt(curveUniformSet[unif_curveMode], UNIF_INT, 1, &curvemode); //is this how i set the curve in teh shader?
 		egpSendUniformInt(curveUniformSet[unif_useWaypoints], UNIF_INT, 1, &trueTest);
 
 		egpActivateVAO(mVAOList + pointModel);
@@ -340,4 +353,41 @@ void SpeedControlWindow::renderToBackbuffer(int* textureUniformSet)
 	egpfwBindColorTargetTexture(mFBOList + speedControlFBO, 0, 0);
 	egpSendUniformFloatMatrix(textureUniformSet[unif_mvp], UNIF_MAT4, 1, 0, mOnScreenMatrix.m);
 	egpDrawActiveVAO();
+
+
+	//display which curve mode we're currently on
+	glBegin(GL_BITMAP); 
+	egpActivateProgram(0);
+	glDisable(GL_TEXTURE_2D);
+
+	auto color = cbmath::vec4(0.6, 0.5, 1, 1);
+
+	glColor3f(color.r, color.g, color.b);
+	glDisable(GL_LIGHTING);
+
+	{
+		std::string stringToWrite[1];
+
+		switch (mCurrentCurve)
+		{
+		case LINES:
+			stringToWrite[0] = "LINES";
+			break;
+		case BEZIER:
+			stringToWrite[0] = "BEZIER";
+			break;
+		case CATMULL_ROM:
+			stringToWrite[0] = "CATMULL ROM";
+			break;
+		case CUBIC_HERMITE:
+			stringToWrite[0] = "CUBIC HERMITE";
+			break;
+		}
+
+		glWindowPos2i(mWindowSize.x * 0.6f + 5, 5);
+		for (auto i = 0; i < stringToWrite[0].size(); i++)
+			glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, stringToWrite[0][i]);
+	}
+
+	glEnd();
 }
