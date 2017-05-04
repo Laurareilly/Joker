@@ -42,6 +42,14 @@ void SpeedControlWindow::resetKeyframes()
 		list.push_back(zeroVec);
 		list.push_back(oneVec);
 	}
+
+	for (auto& handleList : mHandles)
+	{
+		handleList.clear();
+
+		handleList.push_back(zeroVec);
+		handleList.push_back(oneVec);
+	}
 }
 
 float SpeedControlWindow::calculateLerp(const float v0, const float v1, float t)
@@ -141,12 +149,12 @@ bool SpeedControlWindow::updateInput(egpMouse* m, egpKeyboard* key)
 		}
 	}
 
-	cbmath::vec4 mousePos(egpMouseX(m), mWindowSize.y - egpMouseY(m), 0.0f, 1.0f);
-	mousePos.x -= mWindowSize.x - mWindowWidth;
-	mousePos = mOnScreenMatrixInv * mousePos;
+	mMousePos = cbmath::vec4(egpMouseX(m), mWindowSize.y - egpMouseY(m), 0.0f, 1.0f);
+	mMousePos.x -= mWindowSize.x - mWindowWidth;
+	mMousePos = mOnScreenMatrixInv * mMousePos;
 
 	//Return false if we're off the quad; it means we should move the camera instead of drawing keyframes
-	if (mousePos.x / mWindowSize.x > 1.0f || mousePos.y / mWindowSize.y > 1.0f)
+	if (mMousePos.x / mWindowSize.x > 1.0f || mMousePos.y / mWindowSize.y > 1.0f)
 	{
 		return false;
 	}
@@ -154,7 +162,7 @@ bool SpeedControlWindow::updateInput(egpMouse* m, egpKeyboard* key)
 	//If the mouse is pressed down and we're in "NUM_CHANNELS" mode, scrub the keyhead
 	if (egpMouseIsButtonDown(m, 0) && mCurrentChannel == NUM_CHANNELS)
 	{
-		mCurrentTime = (mousePos.x / mWindowSize.x) * 2.0f;
+		mCurrentTime = (mMousePos.x / mWindowSize.x) * 2.0f;
 		return true;
 	}
 
@@ -164,13 +172,26 @@ bool SpeedControlWindow::updateInput(egpMouse* m, egpKeyboard* key)
 		size_t insertIndex;
 		for (insertIndex = 0; insertIndex < mWaypointChannels[mCurrentChannel].size(); insertIndex++)
 		{
-			if (mWaypointChannels[mCurrentChannel][insertIndex].x > mousePos.x)
+			if (mWaypointChannels[mCurrentChannel][insertIndex].x > mMousePos.x)
 				break;
 		}
 
-		//mCurrentTVal = mousePos.y / mWindowSize.y;
-		std::cout << "\nT-val: " << getTVal(mCurrentChannel) << std::endl;
-		mWaypointChannels[mCurrentChannel].insert(mWaypointChannels[mCurrentChannel].begin() + insertIndex, mousePos);
+		//std::cout << "\nT-val: " << getTVal(mCurrentChannel) << std::endl;
+		mWaypointChannels[mCurrentChannel].insert(mWaypointChannels[mCurrentChannel].begin() + insertIndex, mMousePos);
+
+
+		//size_t handleInsertIndex;
+		//for (handleInsertIndex = 0; handleInsertIndex < mHandles[mCurrentChannel].size(); handleInsertIndex++)
+		//{
+		//	if (mHandles[mCurrentChannel][handleInsertIndex].x > mMousePos.x)
+		//		break;
+		//}
+		if (mCurrentCurve == CUBIC_HERMITE)
+		{
+			//mHandles[mCurrentChannel].insert(mHandles[mCurrentChannel].begin() + handleInsertIndex, mMousePos);
+			std::cout << "mHandles: " << mHandles.size() << std::endl;
+			std::cout << "X: " << mMousePos.x << "Y: " << mMousePos.y << std::endl;
+ 		}
 	}
 
 	return true;
@@ -238,7 +259,7 @@ float SpeedControlWindow::getTVal(int channel)
 			posToRight = list[i + 1];
 
 			int prevPosIndex = i - 1;
-			if (prevPosIndex <= 0)
+			if (prevPosIndex <= 0) //the previous point of our point all the way to the left doesn't have a previous, so give it the one all the way to the right
 			{
 				prevPos = list[list.size() - 1];
 			}
@@ -248,7 +269,7 @@ float SpeedControlWindow::getTVal(int channel)
 			}
 
 			int nextPosIndex = i + 2;
-			if (nextPosIndex >= list.size())
+			if (nextPosIndex >= list.size()) //the last point on the right doesn't have a next, so give it the first one
 			{
 				nextPos = list[0];
 			}
@@ -270,8 +291,19 @@ float SpeedControlWindow::getTVal(int channel)
 		case SpeedControlWindow::CATMULL_ROM:
 			return calculateCatmullRom(prevPos.y, posToLeft.y, posToRight.y, nextPos.y, mCurrentTime) / mWindowSize.y;
 		case SpeedControlWindow::CUBIC_HERMITE:
-			//return calculateCubicHermite(posToLeft.y, something, posToRight.y, something, mCurrentTime) / mWindowSize.y;
-			return 0;
+		{
+			//this isn't the way to do it but we've made it this far! :D
+			cbmath::vec2 m0 = cbmath::vec2(338, 506);
+			cbmath::vec2 m1 = cbmath::vec2(1153, 171);
+
+			//if (mHandles.size() > 0)
+			//{
+			//	cbmath::vec2 m0 = cbmath::vec2(mHandles[mCurrentChannel][0].x, mHandles[mCurrentChannel][0].y);
+			//	cbmath::vec2 m1 = cbmath::vec2(mHandles[mCurrentChannel][mHandles.size() - 1].x, mHandles[mCurrentChannel][mHandles.size() - 1].y);
+			//	return calculateCubicHermite(posToLeft.y, m0.y, posToRight.y, m1.y, mCurrentTime) / mWindowSize.y;
+			//}
+			return calculateCubicHermite(posToLeft.y, m0.y, posToRight.y, m1.y, mCurrentTime) / mWindowSize.y;
+		}
 		case SpeedControlWindow::NUM_CURVES:
 			break;
 	}

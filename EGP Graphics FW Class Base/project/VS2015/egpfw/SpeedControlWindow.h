@@ -39,6 +39,8 @@ private:
 	egpProgram* mProgramList;
 
 	std::array<std::vector<cbmath::vec4>, NUM_CHANNELS> mWaypointChannels;
+	std::array<std::vector<cbmath::vec4>, NUM_CHANNELS> mHandles;
+	//std::vector<cbmath::vec2> mHandles;
 	
 	cbmath::vec2 mWindowSize;
 	cbmath::mat4 mLittleBoxWindowMatrix;
@@ -48,6 +50,7 @@ private:
 	CurveType mCurrentCurve;
 	KeyframeChannel mCurrentChannel;
 	float mCurrentTVal;
+	cbmath::vec4 mMousePos;
 	
 	float mWindowScale;
 	float mWindowWidth;
