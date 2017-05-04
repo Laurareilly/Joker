@@ -302,7 +302,7 @@ float SpeedControlWindow::getTVal(int channel)
 			//	cbmath::vec2 m1 = cbmath::vec2(mHandles[mCurrentChannel][mHandles.size() - 1].x, mHandles[mCurrentChannel][mHandles.size() - 1].y);
 			//	return calculateCubicHermite(posToLeft.y, m0.y, posToRight.y, m1.y, mCurrentTime) / mWindowSize.y;
 			//}
-			return calculateCubicHermite(posToLeft.y, m0.y, posToRight.y, m1.y, mCurrentTime) / mWindowSize.y;
+			return calculateCubicHermite(posToLeft.y, m0.y - posToLeft.y, posToRight.y, m1.y - posToRight.y, mCurrentTime) / mWindowSize.y;
 		}
 		case SpeedControlWindow::NUM_CURVES:
 			break;
